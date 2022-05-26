@@ -37,7 +37,8 @@ class Plot:
     def add_axes(self, th=False):
         # Adds the separate temperature and humidity axes
         if th:
-            self.fig.host = self.fig.add_subplot()
+            # self.fig.host = self.fig.add_subplot() ## fixed see: https://stackoverflow.com/questions/41729623/python-matplotlib-nonetype-error-with-twinx
+            self.fig.host = self.fig.subplots()
             self.fig.subplots_adjust(right=0.75)
 
             self.fig.temp = self.fig.host.twinx()
