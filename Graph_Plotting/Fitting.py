@@ -17,7 +17,7 @@ def cv_fits(data):
     # Find points with unrealistically small or large errors
     remove_indices = []
     for i in range(len(errors)):
-        if abs(errors[i]) > 10 * abs(mean_error) or abs(errors[i]) < 0.1 * abs(mean_error):
+        if abs(errors[i]) > 100 * abs(mean_error) or abs(errors[i]) < 0.01 * abs(mean_error):
             remove_indices.append(i)
 
     # Fill lists with the values to be removed
