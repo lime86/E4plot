@@ -7,10 +7,8 @@ from scipy import stats
 
 # Fit two linear lines to the data and find their intersection
 def cv_fits(data):
-
     # Find the average error for all the data points
     mean_error = sum(data.inverse_c_squared_error)/len(data.inverse_c_squared_error)
-
     # Make copies of the data
     errors = copy.deepcopy(data.inverse_c_squared_error)
     voltages = copy.deepcopy(data.v_mean)
@@ -19,7 +17,7 @@ def cv_fits(data):
     # Find points with unrealistically small or large errors
     remove_indices = []
     for i in range(len(errors)):
-        if errors[i] > 10 * mean_error or errors[i] < 0.1 * mean_error:
+        if abs(errors[i]) > 10 * abs(mean_error) or abs(errors[i]) < 0.1 * abs(mean_error):
             remove_indices.append(i)
 
     # Fill lists with the values to be removed
@@ -54,7 +52,6 @@ def cv_fits(data):
 
         fit1, cvm1, info1 = linfit(v_1, c_1, sigmay=c_1_error, relsigma=False, return_all=True)
         fit2, cvm2, info2 = linfit(v_2, c_2, sigmay=c_2_error, relsigma=False, return_all=True)
-
         red_chi_sqr1 = float(info1.rchisq)
         red_chi_sqr2 = float(info2.rchisq)
 
