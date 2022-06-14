@@ -5,7 +5,7 @@ Graph plotting is a software that allows the user to plot data produced by e4Con
 ## Usage
 
 There are two executable files in Graph_Plotting. 
-These are Plot_Multiple.py and Plot_Single.py
+These are `Plot_Multiple.py` and `Plot_Single.py`
 
 Both of these allow the user to plot current against voltage (IV), inverse capacitance squared against voltage (CV) and current against time (It) graphs. All the graphs can be plotted with or without temperature and humidity data. It is possible to find the breakdown voltage on the IV graphs, the full depletion voltage on the CV and the stability of the current on It graphs.
 
@@ -15,7 +15,9 @@ Plot_Multiple.py requires one input, the path to the directory containing the da
 
 Run it in the command line:
 
-`python Plot_Multiple.py file_directory -o output_directory -iv plot_iv -cv plot_cv -it plot_it -ivth plot_ivth -cvth plot_cvth -itth plot_itth -iv_f plot_ivf -cv_f plot_cvf -it_f plot_itf -av choose_average`
+```
+python Plot_Multiple.py file_directory -o output_directory -iv plot_iv -cv plot_cv -it plot_it -ivth plot_ivth -cvth plot_cvth -itth plot_itth -iv_f plot_ivf -cv_f plot_cvf -it_f plot_itf -av choose_average
+```
 
 * Required Inputs
     *  file_directory --> The directory containing the data to be plotted
@@ -44,7 +46,9 @@ Plot_Single.py requires one input, the path to the file you wish to plot.
 
 Run it in the command line:
 
-`python Plot_Single.py file_path -n name -o output_directory -t plot_type  -th plot_temp_and_hum -f plot_fits -av choose_average -r remove_anomalous`
+```
+python Plot_Single.py file_path -n name -o output_directory -t plot_type  -th plot_temp_and_hum -f plot_fits -av choose_average -r remove_anomalous
+```
 
 * Required Inputs
     *  file_path --> The path to the file containing the data to be plotted (including .txt)
