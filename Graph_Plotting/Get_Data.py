@@ -111,7 +111,7 @@ class Data:
                 c_repeats = c[x:x + self.repeats]
                 c_final = []
                 for y in range(0, len(c_repeats)):
-                    if c_repeats[y] < 1e10:
+                    if c_repeats[y] < 1e50:
                         c_final.append(c_repeats[y])
                 self.c_error.append(stats.sem(c_final))
                 # Find the average capacitance values
@@ -164,21 +164,21 @@ class Data:
             # Average current at each measurement - for It the machine records in amps, hence *1000000
             if average == 'mean':
                 for x in range(0, len(i), self.repeats):
-                    self.i_mean.append((sum(i[x:x + self.repeats]) / self.repeats)*1000000)
+                    self.i_mean.append((sum(i[x:x + self.repeats]) / self.repeats)*1e6)
             elif average == 'median':
                 for x in range(0, len(i), self.repeats):
                     i_section = i[x:x + self.repeats]
                     i_section.sort()
                     if self.repeats % 2 == 0.5:
                         p = int((self.repeats / 2) - 0.5)
-                        self.i_mean.append(i_section[p] * 1000000)
+                        self.i_mean.append(i_section[p] * 1e6)
                     elif self.repeats % 2 == 0:
                         p = int((self.repeats / 2) - 1)
                         #print(p)
-                        self.i_mean.append(((i_section[p] + i_section[p + 1]) / 2) * 1000000)
+                        self.i_mean.append(((i_section[p] + i_section[p + 1]) / 2) * 1e6)
             # Standard error at each measurement
             for x in range(0, len(i), self.repeats):
-                self.i_error.append(stats.sem(i[x:x + self.repeats])*1000000)
+                self.i_error.append(stats.sem(i[x:x + self.repeats])*1e6)
             # Average temperature at each measurement
             for x in range(0, len(t), self.repeats):
                 self.temperature.append((sum(t[x:x + self.repeats]) / self.repeats))

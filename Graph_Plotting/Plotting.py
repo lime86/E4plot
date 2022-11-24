@@ -85,7 +85,8 @@ class Plot:
         # Plot the current data
         current_line = self.fig.host.errorbar(x=it.time, y=it.i_mean, yerr=it.i_error, fmt='r.', label='Current')
         # Set y axis range
-        self.fig.host.set_ylim([min(it.i_mean) * 1.1, 0])
+        # self.fig.host.set_ylim([min(it.i_mean) * 1.1, 0])
+        self.fig.host.set_ylim([min(it.i_mean) * 1.1, max(it.i_mean) * 1.1,])
         # Label axis
         self.fig.host.set_xlabel("Time (hours)")
         self.fig.host.set_ylabel("Current ($\mu$A)")
