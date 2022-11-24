@@ -86,7 +86,7 @@ class Plot:
         current_line = self.fig.host.errorbar(x=it.time, y=it.i_mean, yerr=it.i_error, fmt='r.', label='Current')
         # Set y axis range
         # self.fig.host.set_ylim([min(it.i_mean) * 1.1, 0])
-        self.fig.host.set_ylim([min(it.i_mean) * 1.1, max(it.i_mean) * 1.1,])
+        self.fig.host.set_ylim(min(it.i_mean) * 0.9, max(it.i_mean) * 1.1)
         # Label axis
         self.fig.host.set_xlabel("Time (hours)")
         self.fig.host.set_ylabel("Current ($\mu$A)")
@@ -120,9 +120,9 @@ class Plot:
         # If testing the stability of the current
         if fits:
             fitting_data = Fitting.it_fits(it)
-            maximum_line = self.fig.host.axhline(y=fitting_data[0], color='r', label='$I_{max}$ = %s$\mu$A' % Fitting.round_sig(fitting_data[0],2))
+            minimum_line = self.fig.host.axhline(y=fitting_data[0], color='r', label='$I_{min}$ = %s$\mu$A' % Fitting.round_sig(fitting_data[0],2))
             allowed_line = self.fig.host.axhline(y=fitting_data[2], color='k', label='Allowed $I_{min}$ = %s$\mu$A, Result: %s' % (Fitting.round_sig(fitting_data[2],2), fitting_data[3]))
-            minimum_line = self.fig.host.axhline(y=fitting_data[1], color='r', alpha=0.6, label='$I_{min}$ = %s$\mu$A' % Fitting.round_sig(fitting_data[1],2))
+            maximum_line = self.fig.host.axhline(y=fitting_data[1], color='r', alpha=0.6, label='$I_{max}$ = %s$\mu$A' % Fitting.round_sig(fitting_data[1],2))
             # Add to list of plotted lines
             lines.append(minimum_line)
             lines.append(maximum_line)

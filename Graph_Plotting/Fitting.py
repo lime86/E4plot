@@ -114,17 +114,32 @@ def it_fits(data):
     minimum_y = min(main_data_i)
     maximum_y = max(main_data_i)
     """
-    # Largest current
-    minimum_y = min(data.i_mean)
-    # Smallest allowed current
-    max_allowed_y = minimum_y * 0.75
-    # Smallest current
-    maximum_y = max(data.i_mean)
 
-    if maximum_y > max_allowed_y:
-        pass_or_fail = 'Fail'
-    else:
-        pass_or_fail = 'Pass'
+
+    ## check poloarity
+    if np.mean(data.i_mean) < 0:
+        # Largest current
+        maximum_y = min(data.i_mean)
+        # Smallest allowed current
+        max_allowed_y = maximum_y * 0.75
+        # Smallest current
+        minimum_y = max(data.i_mean)
+        if minimum_y > max_allowed_y:
+            pass_or_fail = 'Fail'
+        else:
+            pass_or_fail = 'Pass'
+
+    elif np.mean(data.i_mean) > 0:
+        # Smallest current
+        minimum_y = min(data.i_mean)
+        # Largest current
+        maximum_y = max(data.i_mean)
+        # Smallest allowed current
+        max_allowed_y = maximum_y * 0.75
+        if any(y > maximum_y*1.25 or y < maximum_y*0.75 for y in data.i_mean):
+            pass_or_fail = 'Fail'
+        else:
+            pass_or_fail = 'Pass'
 
     return minimum_y, maximum_y, max_allowed_y, pass_or_fail
 
