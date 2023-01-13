@@ -117,7 +117,7 @@ def it_fits(data):
 
 
     ## check poloarity
-    if np.mean(data.i_mean) < 0:
+    if np.mean(data.i_mean) < 0: ## leakage current is negative
         # Largest current
         maximum_y = min(data.i_mean)
         # Smallest allowed current
@@ -129,7 +129,7 @@ def it_fits(data):
         else:
             pass_or_fail = 'Pass'
 
-    elif np.mean(data.i_mean) > 0:
+    elif np.mean(data.i_mean) > 0: ## leakage current is positive
         # Smallest current
         minimum_y = min(data.i_mean)
         # Largest current

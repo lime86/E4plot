@@ -42,11 +42,11 @@ class Data:
         if self.type == 'iv':
 
             self.n = np.genfromtxt(fname=filename, dtype=float, usecols=1, skip_header=1).tolist()
-            T = np.genfromtxt(fname=filename, dtype=float, usecols=0, skip_header=1).tolist()
-            v = np.genfromtxt(fname=filename, dtype=float, usecols=2, skip_header=1).tolist()
-            i = np.genfromtxt(fname=filename, dtype=float, usecols=3, skip_header=1).tolist()
-            t = np.genfromtxt(fname=filename, dtype=float, usecols=4, skip_header=1).tolist()
-            h = np.genfromtxt(fname=filename, dtype=float, usecols=5, skip_header=1).tolist()
+            T = np.genfromtxt(fname=filename, dtype=float, usecols=0, skip_header=1).tolist() # time
+            v = np.genfromtxt(fname=filename, dtype=float, usecols=2, skip_header=1).tolist() # voltage
+            i = np.genfromtxt(fname=filename, dtype=float, usecols=3, skip_header=1).tolist() # current
+            t = np.genfromtxt(fname=filename, dtype=float, usecols=4, skip_header=1).tolist() # temperature
+            h = np.genfromtxt(fname=filename, dtype=float, usecols=5, skip_header=1).tolist() # humidity
 
             # Find how many measurements were taken at each voltage
             self.find_repeats()
