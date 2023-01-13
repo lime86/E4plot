@@ -131,7 +131,7 @@ class Data:
                 self.inverse_c_squared.append(1 / self.c_mean[x] ** 2)
             # Propagate the errors
             for x in range(0, len(self.inverse_c_squared)):
-                self.inverse_c_squared_error.append((self.inverse_c_squared[x] * 2 * (self.c_error[x] / self.c_mean[x])))
+                self.inverse_c_squared_error.append(abs((self.inverse_c_squared[x] * 2 * (self.c_error[x] / self.c_mean[x]))))
             # Average temperature at each measurement
             for x in range(0, len(t), self.repeats):
                 self.temperature.append((sum(t[x:x + self.repeats]) / self.repeats))
@@ -178,7 +178,12 @@ class Data:
                         self.i_mean.append(((i_section[p] + i_section[p + 1]) / 2))
             # Standard error at each measurement
             for x in range(0, len(i), self.repeats):
-                self.i_error.append(stats.sem(i[x:x + self.repeats])*1e6)
+                ### check why ddof=0: std calculated by dividing (samplesize - ddof).
+                ### ddof = 0: for biased estimator (population), ddof = 1: for unbiased estimator.
+                ### unbiased estimator overestimates error
+                ### sample is a subset of population
+                ### A biased estimator is one that deviates from the true population value. An unbiased estimator is one that does not deviate from the true population parameter.
+                self.i_error.append(stats.sem(i[x:x + self.repeats], ddof=0, nan_policy='omit'))
             # Average temperature at each measurement
             for x in range(0, len(t), self.repeats):
                 self.temperature.append((sum(t[x:x + self.repeats]) / self.repeats))
