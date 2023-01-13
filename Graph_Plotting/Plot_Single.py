@@ -12,6 +12,7 @@ parser.add_argument('-th', '--plot_temp_and_hum', help='include temperature and 
 parser.add_argument('-f', '--plot_fits', help='plot the appropriate fit', default=True)
 parser.add_argument('-av', '--choose_average', help='calculate the average using the median or mean', type=str, default='mean')
 parser.add_argument('-r', '--remove_anomalous', help='remove an anomalous point', type =int, nargs='+', default= None)
+parser.add_argument('-x', '--extension', help='file extension', type=str, default="png")
 
 
 # Method to convert a string input into the correct boolean
@@ -60,7 +61,7 @@ def main():
 
     # Plot the graph
     plot = Plot()
-    plot.plot_graph(output_directory, plot_th, plot_fit, data)
+    plot.plot_graph(output_directory, plot_th, plot_fit, data, args.extension)
 
 
 if __name__ == '__main__':

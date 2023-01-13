@@ -12,7 +12,7 @@ class Plot:
         self.fig = plt.figure()
 
     # Make and save the plots
-    def plot_graph(self, output_folder, th, fits, data=Data()):
+    def plot_graph(self, output_folder, th, fits, data=Data(), extension='png'):
         # Create the axes
         self.add_axes(th=th)
         # Plot the data
@@ -23,7 +23,7 @@ class Plot:
         elif data.type == 'iv':
             self.plot_iv(th, fits, data)
         # Save the graph
-        self.save_graph(output_folder, data)
+        self.save_graph(output_folder, data, extension)
 
 
     # Hides the humidity x axis if using
@@ -234,13 +234,13 @@ class Plot:
         self.fig.suptitle(cv.name)
 
     # Save the graph
-    def save_graph(self, output_folder, data):
+    def save_graph(self, output_folder, data, extension='png'):
         # Path to where to save the data
         my_path = os.path.abspath(output_folder)
         # Type of graph
         my_type = data.type.upper()
         # Name of the file
-        my_file = f'{self.fig.texts[0].get_text()}.png'
+        my_file = f'{self.fig.texts[0].get_text()}.'+extension
         # Check if these folder exist, if not, create them
         if not os.path.isdir(my_path):
             os.mkdir(my_path)
