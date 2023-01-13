@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy import stats
+from scipy import stats, constants
 import os
 import math
 
@@ -287,6 +287,18 @@ class Data:
 
     def get_current(self):
         return self.i_mean
+
+    ## normalise leakage current to 20 degreeC
+    def normalise(self):
+        for index, value in enumerate(self.i_mean):
+            self.i_mean[index] = self.normalise_current(value, self.temperature[index])
+
+    def normalise_current(self, current, temp):
+        Eg = 1.124 ##eV, PhD thesis
+        T1 = temp+273.15 ## measurement temperature
+        T2 = 293.15 ## temperature to be normalised to
+        i_norm = current*((T1/T2)**2)*np.exp(-(Eg/(2*constants.physical_constants["Boltzmann constant in eV/K"][0]))*(1/T2-1/T1)) ## scipy.constants.physical_constants
+        return i_norm
 
     def get_current_error(self):
         return self.i_error

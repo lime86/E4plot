@@ -17,7 +17,15 @@ class Plot:
         self.add_axes(th=th)
         # Plot the data
         if data.type == 'it':
+            # Converts time from seconds to hours
+            data.time_to_hours()
+
             self.plot_it(th, fits, data)
+            self.save_graph(output_folder, data, extension)
+
+            self.fig.clf()
+            self.add_axes(th=th)
+            self.plot_it(th, fits, data, 1)
         elif data.type == 'cv':
             self.plot_cv(th, fits, data)
         elif data.type == 'iv':
@@ -52,10 +60,7 @@ class Plot:
             self.fig.host = self.fig.add_subplot()
 
     # Plots It graphs
-    def plot_it(self, th, fits, it=Data()):
-        # Converts time from seconds to hours
-        it.time_to_hours()
-
+    def plot_it(self, th, fits, it=Data(), tnorm=False):
         """
         # A very rough method of trying to ignore anomalous points in the It data
         mean_current= sum(it.i_mean)/len(it.i_mean)
@@ -83,13 +88,24 @@ class Plot:
         """
 
         # Plot the current data
-        current_line = self.fig.host.errorbar(x=it.time, y=it.i_mean, yerr=it.i_error, fmt='r.', label='Current')
+        if tnorm:
+            it.normalise()
+            current_line = self.fig.host.errorbar(x=it.time, y=it.i_mean, yerr=it.i_error, fmt='r.', label='Normalised Current')
+            self.fig.host.set_ylabel("Normalised Current ($\mu$A)")
+            self.fig.suptitle(it.name+"_Normalised")
+        else:
+            current_line = self.fig.host.errorbar(x=it.time, y=it.i_mean, yerr=it.i_error, fmt='r.', label='Current')
+            self.fig.host.set_ylabel("Current ($\mu$A)")
+            self.fig.suptitle(it.name)
+
+        # Plot 10 min mark
+        self.fig.host.axvline(x=1./6.)
         # Set y axis range
         # self.fig.host.set_ylim([min(it.i_mean) * 1.1, 0])
         self.fig.host.set_ylim(min(it.i_mean) * 0.9, max(it.i_mean) * 1.1)
         # Label axis
         self.fig.host.set_xlabel("Time (hours)")
-        self.fig.host.set_ylabel("Current ($\mu$A)")
+
         # List of all the lines
         lines = [current_line]
         # Line ticks
@@ -130,7 +146,7 @@ class Plot:
 
         # Create legend and title
         self.fig.host.legend(lines, [l.get_label() for l in lines])
-        self.fig.suptitle(it.name)
+
 
     # Plot IV graphs
     def plot_iv(self, th, fits, iv=Data()):
