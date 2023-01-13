@@ -164,18 +164,18 @@ class Data:
             # Average current at each measurement - for It the machine records in amps, hence *1000000
             if average == 'mean':
                 for x in range(0, len(i), self.repeats):
-                    self.i_mean.append((sum(i[x:x + self.repeats]) / self.repeats)*1e6)
+                    self.i_mean.append((sum(i[x:x + self.repeats]) / self.repeats))
             elif average == 'median':
                 for x in range(0, len(i), self.repeats):
                     i_section = i[x:x + self.repeats]
                     i_section.sort()
                     if self.repeats % 2 == 0.5:
                         p = int((self.repeats / 2) - 0.5)
-                        self.i_mean.append(i_section[p] * 1e6)
+                        self.i_mean.append(i_section[p])
                     elif self.repeats % 2 == 0:
                         p = int((self.repeats / 2) - 1)
                         #print(p)
-                        self.i_mean.append(((i_section[p] + i_section[p + 1]) / 2) * 1e6)
+                        self.i_mean.append(((i_section[p] + i_section[p + 1]) / 2))
             # Standard error at each measurement
             for x in range(0, len(i), self.repeats):
                 self.i_error.append(stats.sem(i[x:x + self.repeats])*1e6)
