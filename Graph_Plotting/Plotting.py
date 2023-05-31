@@ -91,11 +91,11 @@ class Plot:
         if tnorm:
             it.normalise()
             current_line = self.fig.host.errorbar(x=it.time, y=it.i_mean, yerr=it.i_error, fmt='r.', label='Normalised Current')
-            self.fig.host.set_ylabel("Normalised Current ($\mu$A)")
+            self.fig.host.set_ylabel("Normalised Current (%s)" % it.prefix)
             self.fig.suptitle(it.name+"_Normalised")
         else:
             current_line = self.fig.host.errorbar(x=it.time, y=it.i_mean, yerr=it.i_error, fmt='r.', label='Current')
-            self.fig.host.set_ylabel("Current ($\mu$A)")
+            self.fig.host.set_ylabel("Current (%s)" % it.prefix)
             self.fig.suptitle(it.name)
 
         # Plot 10 min mark
@@ -154,7 +154,7 @@ class Plot:
         current_line = self.fig.host.errorbar(x=iv.v_mean, y=iv.i_mean, yerr=iv.i_error, fmt='r.', label='Current')
         # Label axis
         self.fig.host.set_xlabel("Voltage (V)")
-        self.fig.host.set_ylabel("Current ($\mu$A)")
+        self.fig.host.set_ylabel("Current (%s)" % iv.prefix)
         # List of plotted lines
         lines = [current_line]
         # Tick size
@@ -200,12 +200,11 @@ class Plot:
 
     # PLot CV graphs
     def plot_cv(self, th, fits, cv=Data()):
-        #print('amw_3')
         # Plot capacitance data
         capacitance_line = self.fig.host.errorbar(x=cv.v_mean, y=cv.inverse_c_squared, yerr=cv.inverse_c_squared_error, fmt='r.', label='Capacitance')
         # Label axis
         self.fig.host.set_xlabel("Voltage (V)")
-        self.fig.host.set_ylabel("$1/C^2$ ($1/pF^2$)")
+        self.fig.host.set_ylabel("$1/C^2$ ($1/%s^2$)" % cv.prefix)
         # List of plotted lines
         lines = [capacitance_line]
         # Tick size and y axis limit

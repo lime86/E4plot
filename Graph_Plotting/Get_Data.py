@@ -24,6 +24,7 @@ class Data:
         self.inverse_c_squared_error = []
         self.temperature = []
         self.humidity = []
+        self.prefix = ''
 
     # read a file and fill data
     def extract_data(self, filename, average):
@@ -40,6 +41,8 @@ class Data:
 
         # Extract data from a IV data file
         if self.type == 'iv':
+            self.prefix = np.genfromtxt(fname=filename, skip_header=0, delimiter='\t', names=True, deletechars='').dtype.names
+            self.prefix = self.prefix[3].split("[")[1].split("]")[0]
 
             self.n = np.genfromtxt(fname=filename, dtype=float, usecols=1, skip_header=1).tolist()
             T = np.genfromtxt(fname=filename, dtype=float, usecols=0, skip_header=1).tolist() # time
@@ -86,6 +89,8 @@ class Data:
 
         # Extract data from CV file
         elif self.type == 'cv':
+            self.prefix = np.genfromtxt(fname=filename, skip_header=1, delimiter='\t', names=True, deletechars='').dtype.names
+            self.prefix = self.prefix[4].split("[")[1].split("]")[0]
 
             self.n = np.genfromtxt(fname=filename, dtype=float, usecols=1, skip_header=2).tolist()
             T = np.genfromtxt(fname=filename, dtype=float, usecols=0, skip_header=2).tolist()
@@ -141,6 +146,8 @@ class Data:
 
         # Extract Data from It file
         elif self.type == 'it':
+            self.prefix = np.genfromtxt(fname=filename, skip_header=0, delimiter='\t', names=True, deletechars='').dtype.names
+            self.prefix = self.prefix[3].split("[")[1].split("]")[0]
 
             self.n = np.genfromtxt(fname=filename, dtype=float, usecols=1, skip_header=1).tolist()
             T = np.genfromtxt(fname=filename, dtype=float, usecols=0, skip_header=1).tolist()
