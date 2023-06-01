@@ -12,7 +12,7 @@ class Plot:
         self.fig = plt.figure()
 
     # Make and save the plots
-    def plot_graph(self, output_folder, th, fits, data=Data(), extension='png'):
+    def plot_graph(self, output_folder, th, fits, data=Data(), extension='png', skip=0):
         # Create the axes
         self.add_axes(th=th)
         # Plot the data
@@ -27,9 +27,9 @@ class Plot:
             self.add_axes(th=th)
             self.plot_it(th, fits, data, 1)
         elif data.type == 'cv':
-            self.plot_cv(th, fits, data)
+            self.plot_cv(th, fits, data, skip)
         elif data.type == 'iv':
-            self.plot_iv(th, fits, data)
+            self.plot_iv(th, fits, data, skip)
         # Save the graph
         self.save_graph(output_folder, data, extension)
 
@@ -149,9 +149,9 @@ class Plot:
 
 
     # Plot IV graphs
-    def plot_iv(self, th, fits, iv=Data()):
+    def plot_iv(self, th, fits, iv=Data(), skip=0):
         # Plot the current data
-        current_line = self.fig.host.errorbar(x=iv.v_mean, y=iv.i_mean, yerr=iv.i_error, fmt='r.', label='Current')
+        current_line = self.fig.host.errorbar(x=iv.v_mean[skip:], y=iv.i_mean[skip:], yerr=iv.i_error[skip:], fmt='r.', label='Current')
         # Label axis
         self.fig.host.set_xlabel("Voltage (V)")
         self.fig.host.set_ylabel("Current (%s)" % iv.prefix)
@@ -184,9 +184,8 @@ class Plot:
             lines.append(hum_line)
         # If finding the breakdown voltage:
         if fits:
-            bd_voltage = Fitting.breakdown_voltage(iv)[0]
-            bd_statement = Fitting.breakdown_voltage(iv)[1]
-            #print(bd_statement)
+            bd_voltage, bd_statement = Fitting.breakdown_voltage(iv,skip)
+            # print(bd_voltage, bd_statement)
             # Plot a vertical line at breakdown voltage
             if bd_voltage is not None:
                 bd_line = self.fig.host.axvline(x=bd_voltage, color='r', linestyle='--', label='$V_{Breakdown}$ = %sV' % Fitting.round_sig(bd_voltage, 3))
@@ -199,7 +198,7 @@ class Plot:
         self.fig.suptitle(iv.name)
 
     # PLot CV graphs
-    def plot_cv(self, th, fits, cv=Data()):
+    def plot_cv(self, th, fits, cv=Data(), skip=0):
         # Plot capacitance data
         capacitance_line = self.fig.host.errorbar(x=cv.v_mean, y=cv.inverse_c_squared, yerr=cv.inverse_c_squared_error, fmt='r.', label='Capacitance')
         # Label axis

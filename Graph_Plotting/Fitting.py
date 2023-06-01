@@ -145,9 +145,9 @@ def it_fits(data):
 
 
 # Find when breakdown occurs - when increases by 20% or more between two consecutive measurements
-def breakdown_voltage(data):
+def breakdown_voltage(data,skip=0):
     bd_voltage = 0
-    for x in range(1, len(data.i_mean) - 1):
+    for x in range(skip+1, len(data.i_mean) - 1):
         if abs(data.i_mean[x + 1]) >= abs(data.i_mean[x] * 1.2):
             bd_voltage = data.v_mean[x]
             break
