@@ -26,8 +26,31 @@ class Data:
         self.humidity = []
         self.prefix = ''
 
+    def convert_prefix(self, _invalue, _inprefix, _targetprefix):
+        _prefix = {'y': 1e-24,  # yocto
+               'z': 1e-21,  # zepto
+               'a': 1e-18,  # atto
+               'f': 1e-15,  # femto
+               'p': 1e-12,  # pico
+               'n': 1e-9,   # nano
+               'u': 1e-6,   # micro
+               'm': 1e-3,   # mili
+               'c': 1e-2,   # centi
+               'd': 1e-1,   # deci
+               'k': 1e3,	# kilo
+               'M': 1e6,	# mega
+               'G': 1e9,	# giga
+               'T': 1e12,   # tera
+               'P': 1e15,   # peta
+               'E': 1e18,   # exa
+               'Z': 1e21,   # zetta
+               'Y': 1e24,   # yotta
+        }
+        outvalue = [ item * _prefix[_inprefix[0]] / _prefix[_targetprefix[0]] for item in _invalue ]
+        return outvalue
+
     # read a file and fill data
-    def extract_data(self, filename, average):
+    def extract_data(self, filename, average, prefix):
         self.filled = True
 
         # If a name has not been specified, find the name
@@ -98,6 +121,8 @@ class Data:
             c = np.genfromtxt(fname=filename, dtype=float, usecols=4, skip_header=2).tolist()
             t = np.genfromtxt(fname=filename, dtype=float, usecols=6, skip_header=2).tolist()
             h = np.genfromtxt(fname=filename, dtype=float, usecols=7, skip_header=2).tolist()
+
+            c = self.convert_prefix(c, self.prefix, prefix)
 
             # Find how many measurements were taken at each voltage
             self.find_repeats()
